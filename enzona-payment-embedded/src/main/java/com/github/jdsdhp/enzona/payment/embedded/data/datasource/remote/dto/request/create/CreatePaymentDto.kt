@@ -12,10 +12,10 @@ internal data class CreatePaymentDto(
     @SerializedName("cancel_url") val cancelUrl: String,
     @SerializedName("currency") val currency: String,
     @SerializedName("description") val description: String,
-    @SerializedName("invoice_number") val invoiceNumber: Int,
+    @SerializedName("invoice_number") val invoiceNumber: String,
     @SerializedName("items") val items: List<ItemDto>,
-    @SerializedName("merchant_op_id") val merchantOpId: Long,
+    @SerializedName("merchant_op_id") val merchantOpId: String,
     @SerializedName("merchant_uuid") val merchantUuid: String,
     @SerializedName("return_url") val returnUrl: String,
-    @SerializedName("terminal_id") val terminalId: Int,
+    @SerializedName("terminal_id") val terminalId: String,
 )

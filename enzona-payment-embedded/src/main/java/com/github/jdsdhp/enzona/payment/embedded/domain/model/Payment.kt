@@ -9,7 +9,6 @@ package com.github.jdsdhp.enzona.payment.embedded.domain.model
  * @property statusName The name of the payment status.
  * @property currency The currency used for the payment.
  * @property description A description associated with the payment.
- * @property merchantOpId The merchant operation ID associated with the payment.
  * @property totalPrice The total price of the payment.
  * @property items The list of items included in the payment.
  * @property links The list of links associated with the payment.
@@ -22,7 +21,6 @@ data class Payment(
     val statusName: String,
     val currency: String,
     val description: String,
-    val merchantOpId: String,
     val totalPrice: Double,
     val items: List<Item>,
     val links: List<Link>,

@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 
 @Keep
 internal data class DetailsResponseDto(
-    @SerializedName("discount") val discount: Double,
-    @SerializedName("shipping") val shipping: Double,
-    @SerializedName("tax") val tax: Double,
-    @SerializedName("tip") val tip: Double,
+    @SerializedName("discount") val discount: String,
+    @SerializedName("shipping") val shipping: String,
+    @SerializedName("tax") val tax: String,
+    @SerializedName("tip") val tip: String,
 )

@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -24,6 +25,12 @@ internal object NetworkModule {
         .writeTimeout(TIME_OUT_WRITE, TimeUnit.SECONDS)
         .readTimeout(TIME_OUT_READ, TimeUnit.SECONDS)
         .ignoreCertificates()
+        .addInterceptor(HttpLoggingInterceptor { message -> println("LOG-APP: $message") }.apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        })
+        .addNetworkInterceptor(HttpLoggingInterceptor { message -> println("LOG-NET: $message") }.apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        })
         .build()
 
 }

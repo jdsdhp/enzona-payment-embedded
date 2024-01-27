@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 internal data class ItemDto(
     @SerializedName("description") val description: String,
     @SerializedName("name") val name: String,
-    @SerializedName("price") val price: Double,
+    @SerializedName("price") val price: String,
     @SerializedName("quantity") val quantity: Int,
-    @SerializedName("tax") val tax: Double,
+    @SerializedName("tax") val tax: String,
 )

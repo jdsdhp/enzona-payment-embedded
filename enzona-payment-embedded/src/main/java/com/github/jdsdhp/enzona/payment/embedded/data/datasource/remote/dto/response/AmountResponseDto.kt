@@ -6,5 +6,5 @@ import com.google.gson.annotations.SerializedName
 @Keep
 internal data class AmountResponseDto(
     @SerializedName("details") val details: DetailsResponseDto,
-    @SerializedName("total") val total: Double,
+    @SerializedName("total") val total: String,
 )
