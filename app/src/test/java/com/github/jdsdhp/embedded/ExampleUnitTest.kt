@@ -1,4 +1,4 @@
-package com.github.jdsdhp.crashalytics
+package com.github.jdsdhp.embedded
 
 import org.junit.Test
 

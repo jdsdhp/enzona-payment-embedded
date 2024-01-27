@@ -4,9 +4,10 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 @Keep
-internal data class CreateOrderDto(
-    @SerializedName("amount") val amount: Int,
-    @SerializedName("currency") val currency: String,
+internal data class ItemDto(
     @SerializedName("description") val description: String,
-    @SerializedName("merchant_op_id") val merchantOpId: Long
+    @SerializedName("name") val name: String,
+    @SerializedName("price") val price: Double,
+    @SerializedName("quantity") val quantity: Int,
+    @SerializedName("tax") val tax: Double,
 )

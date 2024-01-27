@@ -1,4 +1,4 @@
-package com.github.jdsdhp.crashalytics
+package com.github.jdsdhp.enzona.payment.embedded
 
 import org.junit.Test
 
