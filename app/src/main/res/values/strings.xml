@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Enzona Sample</string>
+    <string name="consumer_key">Consumer Key</string>
+    <string name="consumer_secret">Consumer Secret</string>
+    <string name="merchant_uuid">Merchant UUID</string>
+    <string name="authenticate">Authenticate</string>
+    <string name="create_payment">Create Payment</string>
+    <string name="accept">Accept</string>
 </resources>
