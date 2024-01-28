@@ -1,5 +1,7 @@
 package com.github.jdsdhp.enzona.payment.embedded.domain.datasource
 
+import com.github.jdsdhp.enzona.payment.embedded.Enzona
+import com.github.jdsdhp.enzona.payment.embedded.domain.model.CancelStatus
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Payment
 import com.github.jdsdhp.enzona.payment.embedded.util.ResultValue
@@ -11,6 +13,7 @@ internal interface PaymentRemoteDatasource {
 
     /**
      * Suspend function to create a payment remotely.
+     * @param apiUrl The Enzona API URL to be used (official or sandbox).
      * @param token The authentication token.
      * @param discount The discount amount for the payment.
      * @param shipping The shipping cost for the payment.
@@ -28,6 +31,7 @@ internal interface PaymentRemoteDatasource {
      * @return ResultValue containing the created payment information.
      */
     suspend fun createPayment(
+        apiUrl: Enzona.ApiUrl,
         token: String,
         discount: Double,
         shipping: Double,
@@ -42,6 +46,45 @@ internal interface PaymentRemoteDatasource {
         returnUrl: String,
         terminalId: String,
         items: List<Item>,
+    ): ResultValue<Payment>
+
+    /**
+     * Suspend function to get payment details remotely.
+     * @param apiUrl The Enzona API URL to be used (official or sandbox).
+     * @param token The authentication token.
+     * @param transactionUuid The UUID of the transaction.
+     * @return ResultValue containing the payment details.
+     */
+    suspend fun getPaymentDetails(
+        apiUrl: Enzona.ApiUrl,
+        token: String,
+        transactionUuid: String
+    ): ResultValue<Payment>
+
+    /**
+     * Suspend function to cancel a payment remotely.
+     * @param apiUrl The Enzona API URL to be used (official or sandbox).
+     * @param token The authentication token.
+     * @param transactionUuid The UUID of the transaction to be canceled.
+     * @return ResultValue containing the cancellation status.
+     */
+    suspend fun cancelPayment(
+        apiUrl: Enzona.ApiUrl,
+        token: String,
+        transactionUuid: String
+    ): ResultValue<CancelStatus>
+
+    /**
+     * Suspend function to complete a payment remotely.
+     * @param apiUrl The Enzona API URL to be used (official or sandbox).
+     * @param token The authentication token.
+     * @param transactionUuid The UUID of the transaction to be completed.
+     * @return ResultValue containing the payment details after completion.
+     */
+    suspend fun completePayment(
+        apiUrl: Enzona.ApiUrl,
+        token: String,
+        transactionUuid: String
     ): ResultValue<Payment>
 
 }

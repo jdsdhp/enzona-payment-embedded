@@ -39,6 +39,23 @@ internal fun OkHttpClient.post(
 }
 
 /**
+ * Executes an HTTP GET request using OkHttpClient.
+ * @param fullUrl The full URL for the GET request.
+ * @param headers A map of headers to be included in the request.
+ * @return The response of the GET request.
+ */
+internal fun OkHttpClient.get(
+    fullUrl: String,
+    headers: Map<String, String>,
+): Response {
+    val request: Request = Request.Builder()
+        .url(fullUrl)
+        .apply { headers.forEach { addHeader(it.key, it.value) } }
+        .build()
+    return newCall(request).execute()
+}
+
+/**
  * Configures OkHttpClient.Builder to ignore SSL/TLS certificates.
  * Use with caution and only in scenarios where certificate validation is not required.
  * @return The modified OkHttpClient.Builder.

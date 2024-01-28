@@ -66,6 +66,7 @@ internal fun MainScreen(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
@@ -121,7 +122,7 @@ internal fun MainScreen(
 
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Currency") },
+            label = { Text(text = stringResource(R.string.currency)) },
             value = uiState.createPayment.currency,
             onValueChange = { viewModel.onCurrencyChanged(it) },
         )
@@ -130,7 +131,7 @@ internal fun MainScreen(
 
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Cancel Url") },
+            label = { Text(text = stringResource(R.string.cancel_url)) },
             value = uiState.createPayment.cancelUrl,
             onValueChange = { viewModel.onCancelUrlChanged(it) },
         )
@@ -139,7 +140,7 @@ internal fun MainScreen(
 
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Return Url") },
+            label = { Text(text = stringResource(R.string.return_url)) },
             value = uiState.createPayment.returnUrl,
             onValueChange = { viewModel.onReturnUrlChanged(it) },
         )
@@ -148,7 +149,7 @@ internal fun MainScreen(
 
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Merchant Op Id (12 digits max)") },
+            label = { Text(text = stringResource(R.string.merchant_op_id_12_digits_max)) },
             value = uiState.createPayment.merchantOpId,
             onValueChange = { viewModel.onMerchantOpIdChanged(it) },
         )
@@ -157,7 +158,7 @@ internal fun MainScreen(
 
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Description (Optional)") },
+            label = { Text(text = stringResource(R.string.description_optional)) },
             value = uiState.createPayment.description,
             onValueChange = { viewModel.onDescriptionChanged(it) },
         )
@@ -166,7 +167,7 @@ internal fun MainScreen(
 
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Invoice Number (Optional)") },
+            label = { Text(text = stringResource(R.string.invoice_number_optional)) },
             value = uiState.createPayment.invoiceNumber,
             onValueChange = { viewModel.onInvoiceNumberChanged(it) },
         )
@@ -175,7 +176,7 @@ internal fun MainScreen(
 
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Discount (Optional)") },
+            label = { Text(text = stringResource(R.string.discount_optional)) },
             value = uiState.createPayment.discount.toString(),
             onValueChange = { viewModel.onDiscountChanged(it) },
         )
@@ -184,7 +185,7 @@ internal fun MainScreen(
 
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Tip (Optional)") },
+            label = { Text(text = stringResource(R.string.tip_optional)) },
             value = uiState.createPayment.tip.toString(),
             onValueChange = { viewModel.onTipChanged(it) },
         )
@@ -193,7 +194,7 @@ internal fun MainScreen(
 
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Shipping (Optional)") },
+            label = { Text(text = stringResource(R.string.shipping_optional)) },
             value = uiState.createPayment.shipping.toString(),
             onValueChange = { viewModel.onShippingChanged(it) },
         )
@@ -202,7 +203,7 @@ internal fun MainScreen(
 
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Buyer Identity Code (Optional)") },
+            label = { Text(text = stringResource(R.string.buyer_identity_code_optional)) },
             value = uiState.createPayment.buyerIdentityCode,
             onValueChange = { viewModel.onBuyerIdentityCodeChanged(it) },
         )
@@ -211,7 +212,7 @@ internal fun MainScreen(
 
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Terminal Id (Optional)") },
+            label = { Text(text = stringResource(R.string.terminal_id_optional)) },
             value = uiState.createPayment.terminalId,
             onValueChange = { viewModel.onTerminalIdChanged(it) },
         )
@@ -225,7 +226,7 @@ internal fun MainScreen(
                         Text(text = it.name + " (${it.quantity})")
                         Text(text = it.description)
                         Text(text = "$${it.price}")
-                        Text(text = "Tax: ${it.tax}")
+                        Text(text = stringResource(R.string.tax_dots, it.tax))
                     }
                 }
                 Spacer(modifier = Modifier.height(4.dp))
@@ -241,6 +242,84 @@ internal fun MainScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         HorizontalDivider()
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = stringResource(R.string.payment_details),
+            style = MaterialTheme.typography.titleLarge,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Card(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.padding(8.dp)) {
+                uiState.payment?.let { payment ->
+                    Text(
+                        text = stringResource(
+                            R.string.transaction_uuid_dots,
+                            payment.transactionUuid
+                        )
+                    )
+                    Text(text = stringResource(R.string.status_code_dots, payment.statusCode))
+                    Text(text = stringResource(R.string.status_name_dots, payment.statusName))
+                    Text(text = stringResource(R.string.description_dots, payment.description))
+                    Text(text = stringResource(R.string.currency_dots, payment.currency))
+                    Text(text = stringResource(R.string.created_at_dots, payment.createdAt))
+                    Text(text = stringResource(R.string.updated_at_dots, payment.updatedAt))
+                    Text(text = stringResource(R.string.total_price_dots, payment.totalPrice))
+                    payment.links.forEach {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(text = "${it.rel} - ${it.method} - ${it.href}")
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = { viewModel.onGetPaymentDetailClick() }) {
+            Text(text = stringResource(R.string.get_payment_details))
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+        HorizontalDivider()
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = stringResource(R.string.cancel_payment),
+            style = MaterialTheme.typography.titleLarge,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = { viewModel.onCancelPaymentClick() }) {
+            Text(text = stringResource(R.string.cancel_payment))
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        HorizontalDivider()
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = stringResource(R.string.complete_payment),
+            style = MaterialTheme.typography.titleLarge,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = { viewModel.onCompletePaymentClick() }) {
+            Text(text = stringResource(R.string.complete_payment))
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
     }
 

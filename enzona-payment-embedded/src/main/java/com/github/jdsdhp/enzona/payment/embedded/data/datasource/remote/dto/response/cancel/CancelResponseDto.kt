@@ -9,5 +9,5 @@ internal data class CancelResponseDto(
     @SerializedName("status_denom") val statusName: String,
     @SerializedName("transaction_denom") val transactionName: String,
     @SerializedName("transaction_uuid") val transactionUuid: String,
-    @SerializedName("update_at") val updateAt: String,
+    @SerializedName("updated_at") val updateAt: String,
 )

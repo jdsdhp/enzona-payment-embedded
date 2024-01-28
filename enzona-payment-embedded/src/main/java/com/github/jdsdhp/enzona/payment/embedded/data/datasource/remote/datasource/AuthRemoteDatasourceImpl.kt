@@ -25,13 +25,14 @@ internal class AuthRemoteDatasourceImpl @Inject constructor(
 
     @OptIn(ExperimentalEncodingApi::class)
     override suspend fun authenticate(
+        apiUrl: Enzona.ApiUrl,
         consumerKey: String,
         consumerSecret: String,
     ): ResultValue<Token> = withContext(dispatcher) {
         remoteDatasource.call {
             val authHeader = "Basic ${Base64.encode("$consumerKey:$consumerSecret".toByteArray())}"
             val res = okHttpClient.post(
-                fullUrl = "${Enzona.ApiUrl.OFFICIAL.url}/token",
+                fullUrl = "${apiUrl.url}/token",
                 mediaTypeContent = "application/x-www-form-urlencoded",
                 content = "grant_type=client_credentials&scope=${Scope.ENZONA_BUSINESS_PAYMENT.label}",
                 headers = mapOf("Authorization" to authHeader),

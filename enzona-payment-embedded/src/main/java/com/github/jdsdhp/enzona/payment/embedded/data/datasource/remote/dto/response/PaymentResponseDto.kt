@@ -1,4 +1,4 @@
-package com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.check
+package com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response
 
 import androidx.annotation.Keep
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.AmountResponseDto
@@ -7,7 +7,7 @@ import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.resp
 import com.google.gson.annotations.SerializedName
 
 @Keep
-internal data class CheckStatusResponseDto(
+internal data class PaymentResponseDto(
     @SerializedName("amount") val amount: AmountResponseDto,
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("currency") val currency: String,
@@ -16,9 +16,11 @@ internal data class CheckStatusResponseDto(
     @SerializedName("items") val items: List<ItemResponseDto>,
     @SerializedName("links") val links: List<LinkResponseDto>,
     @SerializedName("merchant_op_id") val merchantOpId: String,
-    @SerializedName("merchant_uuid") val merchantUuid: String,
-    @SerializedName("status_code") val statusCode: String,
+    @SerializedName("status_code") val statusCode: Int,
+    @SerializedName("status_denom") val statusName: String,
     @SerializedName("terminal_id") val terminalId: String,
     @SerializedName("transaction_uuid") val transactionUuid: String,
-    @SerializedName("update_at") val updateAt: String,
+    @SerializedName("updated_at") val updateAt: String,
+    @SerializedName("commission") val commission: String,
+    @SerializedName("transaction_signature") val transactionSignature: String,
 )

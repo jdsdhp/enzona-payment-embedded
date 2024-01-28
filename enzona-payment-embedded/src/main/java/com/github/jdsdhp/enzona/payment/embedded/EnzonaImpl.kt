@@ -2,6 +2,7 @@ package com.github.jdsdhp.enzona.payment.embedded
 
 import com.github.jdsdhp.enzona.payment.embedded.domain.datasource.AuthRemoteDatasource
 import com.github.jdsdhp.enzona.payment.embedded.domain.datasource.PaymentRemoteDatasource
+import com.github.jdsdhp.enzona.payment.embedded.domain.model.CancelStatus
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Payment
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Token
@@ -36,6 +37,7 @@ internal class EnzonaImpl @Inject constructor(
 
     override suspend fun authenticate(): ResultValue<Token> =
         authRemoteDatasource.authenticate(
+            apiUrl = apiUrl,
             consumerKey = consumerKey,
             consumerSecret = consumerSecret,
         ).also {
@@ -58,6 +60,7 @@ internal class EnzonaImpl @Inject constructor(
         terminalId: String,
         items: List<Item>,
     ): ResultValue<Payment> = paymentRemoteDatasource.createPayment(
+        apiUrl = apiUrl,
         token = token?.accessToken ?: "",
         discount = discount,
         shipping = shipping,
@@ -73,5 +76,26 @@ internal class EnzonaImpl @Inject constructor(
         returnUrl = returnUrl,
         terminalId = terminalId,
     )
+
+    override suspend fun getPaymentDetails(transactionUuid: String): ResultValue<Payment> =
+        paymentRemoteDatasource.getPaymentDetails(
+            apiUrl = apiUrl,
+            token = token?.accessToken ?: "",
+            transactionUuid = transactionUuid,
+        )
+
+    override suspend fun cancelPayment(transactionUuid: String): ResultValue<CancelStatus> =
+        paymentRemoteDatasource.cancelPayment(
+            apiUrl = apiUrl,
+            token = token?.accessToken ?: "",
+            transactionUuid = transactionUuid,
+        )
+
+    override suspend fun completePayment(transactionUuid: String): ResultValue<Payment> =
+        paymentRemoteDatasource.completePayment(
+            apiUrl = apiUrl,
+            token = token?.accessToken ?: "",
+            transactionUuid = transactionUuid,
+        )
 
 }
