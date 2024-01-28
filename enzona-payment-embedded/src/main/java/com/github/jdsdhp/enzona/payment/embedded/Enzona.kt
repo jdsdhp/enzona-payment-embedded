@@ -17,7 +17,6 @@ interface Enzona {
     enum class ApiUrl(val url: String) {
         OFFICIAL(url = "https://api.enzona.net"),
         SANDBOX(url = "https://apisandbox.enzona.net"),
-        OFFICIAL_PAYMENT_ENDPOINT("payment/v1.0.0/payments")
     }
 
     /**
@@ -84,5 +83,12 @@ interface Enzona {
      * @return ResultValue containing the cancellation status.
      */
     suspend fun cancelPayment(transactionUuid: String): ResultValue<CancelStatus>
+
+    /**
+     * Suspend function to complete a payment using transaction UUID.
+     * @param transactionUuid The UUID of the transaction to be completed.
+     * @return ResultValue containing the payment information after completion.
+     */
+    suspend fun completePayment(transactionUuid: String): ResultValue<Payment>
 
 }

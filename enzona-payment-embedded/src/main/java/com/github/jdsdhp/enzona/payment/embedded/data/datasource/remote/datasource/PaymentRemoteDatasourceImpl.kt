@@ -6,8 +6,8 @@ import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.datasour
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.request.AmountDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.request.DetailsDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.request.create.CreatePaymentDto
+import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.PaymentResponseDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.cancel.CancelResponseDto
-import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.create.PaymentResponseDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.mapper.asData
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.mapper.asDomain
 import com.github.jdsdhp.enzona.payment.embedded.di.IoDispatcher
@@ -29,9 +29,20 @@ internal class PaymentRemoteDatasourceImpl @Inject constructor(
     private val remoteDatasource: RemoteDatasource,
 ) : PaymentRemoteDatasource {
 
+    /**
+     * Enumeration representing different API endpoints.
+     */
+    private enum class Endpoint(val path: String) {
+        PAYMENTS("payment/v1.0.0/payments")
+    }
+
+    /**
+     * Gson instance for JSON serialization and deserialization.
+     */
     private val gson: Gson = Gson()
 
     override suspend fun createPayment(
+        apiUrl: Enzona.ApiUrl,
         token: String,
         discount: Double,
         shipping: Double,
@@ -79,7 +90,7 @@ internal class PaymentRemoteDatasourceImpl @Inject constructor(
                 terminalId = terminalId,
             )
             val res = okHttpClient.post(
-                fullUrl = "${Enzona.ApiUrl.OFFICIAL.url}/${Enzona.ApiUrl.OFFICIAL_PAYMENT_ENDPOINT.url}",
+                fullUrl = "${apiUrl.url}/${Endpoint.PAYMENTS.path}",
                 mediaTypeContent = "application/json",
                 content = gson.toJson(createPayment),
                 headers = mapOf("Authorization" to "Bearer $token"),
@@ -90,12 +101,13 @@ internal class PaymentRemoteDatasourceImpl @Inject constructor(
     }
 
     override suspend fun getPaymentDetails(
+        apiUrl: Enzona.ApiUrl,
         token: String,
         transactionUuid: String,
     ): ResultValue<Payment> = withContext(dispatcher) {
         remoteDatasource.call {
             val res = okHttpClient.get(
-                fullUrl = "${Enzona.ApiUrl.OFFICIAL.url}/${Enzona.ApiUrl.OFFICIAL_PAYMENT_ENDPOINT.url}/$transactionUuid",
+                fullUrl = "${apiUrl.url}/${Endpoint.PAYMENTS.path}/$transactionUuid",
                 headers = mapOf("Authorization" to "Bearer $token"),
             )
             gson.fromJson(res.body?.string(), PaymentResponseDto::class.java).asDomain()
@@ -103,17 +115,34 @@ internal class PaymentRemoteDatasourceImpl @Inject constructor(
     }
 
     override suspend fun cancelPayment(
+        apiUrl: Enzona.ApiUrl,
         token: String,
         transactionUuid: String,
     ): ResultValue<CancelStatus> = withContext(dispatcher) {
         remoteDatasource.call {
             val res = okHttpClient.post(
-                fullUrl = "${Enzona.ApiUrl.OFFICIAL.url}/${Enzona.ApiUrl.OFFICIAL_PAYMENT_ENDPOINT.url}/$transactionUuid/cancel",
+                fullUrl = "${apiUrl.url}/${Endpoint.PAYMENTS.path}/$transactionUuid/cancel",
                 mediaTypeContent = "application/json",
                 content = "",
                 headers = mapOf("Authorization" to "Bearer $token"),
             )
             gson.fromJson(res.body?.string(), CancelResponseDto::class.java).asDomain()
+        }
+    }
+
+    override suspend fun completePayment(
+        apiUrl: Enzona.ApiUrl,
+        token: String,
+        transactionUuid: String,
+    ): ResultValue<Payment> = withContext(dispatcher) {
+        remoteDatasource.call {
+            val res = okHttpClient.post(
+                fullUrl = "${apiUrl.url}/${Endpoint.PAYMENTS.path}/$transactionUuid/complete",
+                mediaTypeContent = "application/json",
+                content = "",
+                headers = mapOf("Authorization" to "Bearer $token"),
+            )
+            gson.fromJson(res.body?.string(), PaymentResponseDto::class.java).asDomain()
         }
     }
 
