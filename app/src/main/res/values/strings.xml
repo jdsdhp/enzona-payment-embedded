@@ -29,4 +29,5 @@
     <string name="buyer_identity_code_optional">Buyer Identity Code (Optional)</string>
     <string name="terminal_id_optional">Terminal Id (Optional)</string>
     <string name="tax_dots">Tax: %1$s</string>
+    <string name="complete_payment">Complete Payment</string>
 </resources>

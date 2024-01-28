@@ -26,9 +26,9 @@ class MainViewModel @Inject constructor(private val enzona: Enzona) : ViewModel(
         val isLoading: Boolean = false,
         val error: String? = null,
         val textMessage: String? = null,
-        val consumerKey: String = "81go6n9Vz1gcSL2nK5mfZxJzDRwa",
-        val consumerSecret: String = "MLZucMGr3z9k5kqp49jvwJCrWU4a",
-        val merchantUUID: String = "2a5d8dfd49794387b408d2168a461da5",
+        val consumerKey: String = "",
+        val consumerSecret: String = "",
+        val merchantUUID: String = "",
         val items: List<Item> = emptyList(),
         val createPayment: CreatePayment = CreatePayment(),
         val payment: Payment? = null,
@@ -56,7 +56,7 @@ class MainViewModel @Inject constructor(private val enzona: Enzona) : ViewModel(
             _uiState.update {
                 it.copy(
                     items = listOf(
-                        Item(
+                        /*Item(
                             quantity = 2,
                             name = "Mango",
                             description = "Product One Description",
@@ -69,7 +69,7 @@ class MainViewModel @Inject constructor(private val enzona: Enzona) : ViewModel(
                             description = "Product Two Description",
                             price = 2.0,
                             tax = 2.0,
-                        ),
+                        ),*/
                         Item(
                             quantity = 1,
                             name = "Guava",
@@ -308,10 +308,12 @@ class MainViewModel @Inject constructor(private val enzona: Enzona) : ViewModel(
                 transactionUuid = _uiState.value.payment?.transactionUuid ?: "",
             )) {
                 is ResultValue.Success -> {
-                    Log.d(TAG, "onGePaymentDetailClick: Success = $res")
+                    Log.d(TAG, "onGetPaymentDetailClick: Success = $res")
                     _uiState.update {
                         it.copy(
-                            payment = res.data.copy(links = res.data.links),
+                            payment = res.data.copy(
+                                links = _uiState.value.payment?.links ?: emptyList()
+                            ),
                             isLoading = false,
                             textMessage = "Payment details updated!",
                         )
@@ -319,7 +321,7 @@ class MainViewModel @Inject constructor(private val enzona: Enzona) : ViewModel(
                 }
 
                 is ResultValue.Error -> {
-                    Log.d(TAG, "onGePaymentDetailClick: Error = $res")
+                    Log.d(TAG, "onGetPaymentDetailClick: Error = $res")
                     _uiState.update {
                         it.copy(
                             isLoading = false,
@@ -354,6 +356,38 @@ class MainViewModel @Inject constructor(private val enzona: Enzona) : ViewModel(
 
                 is ResultValue.Error -> {
                     Log.d(TAG, "oCancelPaymentClick: Error = $res")
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = res.exception.toString(),
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun onCompletePaymentClick() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, textMessage = null, error = null) }
+            when (val res = enzona.completePayment(
+                transactionUuid = _uiState.value.payment?.transactionUuid ?: "",
+            )) {
+                is ResultValue.Success -> {
+                    Log.d(TAG, "onCompletePaymentClick: Success = $res")
+                    _uiState.update {
+                        it.copy(
+                            payment = res.data.copy(
+                                links = _uiState.value.payment?.links ?: emptyList()
+                            ),
+                            isLoading = false,
+                            textMessage = "Payment completed successfully!",
+                        )
+                    }
+                }
+
+                is ResultValue.Error -> {
+                    Log.d(TAG, "onCompletePaymentClick: Error = $res")
                     _uiState.update {
                         it.copy(
                             isLoading = false,

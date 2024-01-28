@@ -37,6 +37,7 @@ internal class EnzonaImpl @Inject constructor(
 
     override suspend fun authenticate(): ResultValue<Token> =
         authRemoteDatasource.authenticate(
+            apiUrl = apiUrl,
             consumerKey = consumerKey,
             consumerSecret = consumerSecret,
         ).also {
@@ -59,6 +60,7 @@ internal class EnzonaImpl @Inject constructor(
         terminalId: String,
         items: List<Item>,
     ): ResultValue<Payment> = paymentRemoteDatasource.createPayment(
+        apiUrl = apiUrl,
         token = token?.accessToken ?: "",
         discount = discount,
         shipping = shipping,
@@ -77,12 +79,21 @@ internal class EnzonaImpl @Inject constructor(
 
     override suspend fun getPaymentDetails(transactionUuid: String): ResultValue<Payment> =
         paymentRemoteDatasource.getPaymentDetails(
+            apiUrl = apiUrl,
             token = token?.accessToken ?: "",
             transactionUuid = transactionUuid,
         )
 
     override suspend fun cancelPayment(transactionUuid: String): ResultValue<CancelStatus> =
         paymentRemoteDatasource.cancelPayment(
+            apiUrl = apiUrl,
+            token = token?.accessToken ?: "",
+            transactionUuid = transactionUuid,
+        )
+
+    override suspend fun completePayment(transactionUuid: String): ResultValue<Payment> =
+        paymentRemoteDatasource.completePayment(
+            apiUrl = apiUrl,
             token = token?.accessToken ?: "",
             transactionUuid = transactionUuid,
         )
