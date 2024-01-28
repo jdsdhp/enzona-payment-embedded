@@ -26,9 +26,9 @@ class MainViewModel @Inject constructor(private val enzona: Enzona) : ViewModel(
         val isLoading: Boolean = false,
         val error: String? = null,
         val textMessage: String? = null,
-        val consumerKey: String = "",
-        val consumerSecret: String = "",
-        val merchantUUID: String = "",
+        val consumerKey: String = "81go6n9Vz1gcSL2nK5mfZxJzDRwa",
+        val consumerSecret: String = "MLZucMGr3z9k5kqp49jvwJCrWU4a",
+        val merchantUUID: String = "2a5d8dfd49794387b408d2168a461da5",
         val items: List<Item> = emptyList(),
         val createPayment: CreatePayment = CreatePayment(),
         val payment: Payment? = null,
@@ -301,7 +301,7 @@ class MainViewModel @Inject constructor(private val enzona: Enzona) : ViewModel(
         }
     }
 
-    fun onGePaymentDetailClick() {
+    fun onGetPaymentDetailClick() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, textMessage = null, error = null) }
             when (val res = enzona.getPaymentDetails(
@@ -320,6 +320,40 @@ class MainViewModel @Inject constructor(private val enzona: Enzona) : ViewModel(
 
                 is ResultValue.Error -> {
                     Log.d(TAG, "onGePaymentDetailClick: Error = $res")
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = res.exception.toString(),
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun onCancelPaymentClick() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, textMessage = null, error = null) }
+            when (val res = enzona.cancelPayment(
+                transactionUuid = _uiState.value.payment?.transactionUuid ?: "",
+            )) {
+                is ResultValue.Success -> {
+                    Log.d(TAG, "oCancelPaymentClick: Success = $res")
+                    _uiState.update {
+                        it.copy(
+                            payment = it.payment?.copy(
+                                updatedAt = res.data.updateAt,
+                                statusCode = res.data.statusCode,
+                                statusName = res.data.statusName,
+                            ),
+                            isLoading = false,
+                            textMessage = "Payment canceled successfully!",
+                        )
+                    }
+                }
+
+                is ResultValue.Error -> {
+                    Log.d(TAG, "oCancelPaymentClick: Error = $res")
                     _uiState.update {
                         it.copy(
                             isLoading = false,

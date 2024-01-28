@@ -20,5 +20,5 @@ internal data class CompleteResponseDto(
     @SerializedName("status_code") val statusCode: String,
     @SerializedName("terminal_id") val terminalId: String,
     @SerializedName("transaction_uuid") val transactionUuid: String,
-    @SerializedName("update_at") val updateAt: String,
+    @SerializedName("updated_at") val updateAt: String,
 )

@@ -5,8 +5,10 @@ import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.requ
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.request.ItemDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.ItemResponseDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.LinkResponseDto
+import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.cancel.CancelResponseDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.create.PaymentResponseDto
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Amount
+import com.github.jdsdhp.enzona.payment.embedded.domain.model.CancelStatus
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Details
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Link
@@ -75,4 +77,12 @@ internal fun PaymentResponseDto.asDomain() = Payment(
     totalPrice = amount.total.toDouble(),
     items = items.map { it.asDomain() },
     links = links.map { it.asDomain() }
+)
+
+internal fun CancelResponseDto.asDomain(): CancelStatus = CancelStatus(
+    statusCode = statusCode.toInt(),
+    statusName = statusName,
+    transactionName = transactionName,
+    transactionUuid = transactionUuid,
+    updateAt = updateAt,
 )

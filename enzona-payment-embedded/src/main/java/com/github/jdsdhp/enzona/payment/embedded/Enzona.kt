@@ -1,5 +1,6 @@
 package com.github.jdsdhp.enzona.payment.embedded
 
+import com.github.jdsdhp.enzona.payment.embedded.domain.model.CancelStatus
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Payment
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Token
@@ -76,5 +77,12 @@ interface Enzona {
      * @return ResultValue containing the payment information.
      */
     suspend fun getPaymentDetails(transactionUuid: String): ResultValue<Payment>
+
+    /**
+     * Suspend function to cancel a payment using transaction UUID.
+     * @param transactionUuid The UUID of the transaction to be canceled.
+     * @return ResultValue containing the cancellation status.
+     */
+    suspend fun cancelPayment(transactionUuid: String): ResultValue<CancelStatus>
 
 }

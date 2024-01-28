@@ -2,6 +2,7 @@ package com.github.jdsdhp.enzona.payment.embedded
 
 import com.github.jdsdhp.enzona.payment.embedded.domain.datasource.AuthRemoteDatasource
 import com.github.jdsdhp.enzona.payment.embedded.domain.datasource.PaymentRemoteDatasource
+import com.github.jdsdhp.enzona.payment.embedded.domain.model.CancelStatus
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Payment
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Token
@@ -76,6 +77,12 @@ internal class EnzonaImpl @Inject constructor(
 
     override suspend fun getPaymentDetails(transactionUuid: String): ResultValue<Payment> =
         paymentRemoteDatasource.getPaymentDetails(
+            token = token?.accessToken ?: "",
+            transactionUuid = transactionUuid,
+        )
+
+    override suspend fun cancelPayment(transactionUuid: String): ResultValue<CancelStatus> =
+        paymentRemoteDatasource.cancelPayment(
             token = token?.accessToken ?: "",
             transactionUuid = transactionUuid,
         )

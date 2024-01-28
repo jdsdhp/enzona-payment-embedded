@@ -6,4 +6,27 @@
     <string name="authenticate">Authenticate</string>
     <string name="create_payment">Create Payment</string>
     <string name="accept">Accept</string>
+    <string name="cancel_payment">Cancel Payment</string>
+    <string name="payment_details">Payment Details</string>
+    <string name="transaction_uuid_dots">Transaction UUID: %1$s</string>
+    <string name="status_code_dots">Status Code: %1$s</string>
+    <string name="status_name_dots">Status Name: %1$s</string>
+    <string name="description_dots">Description: %1$s</string>
+    <string name="currency_dots">Currency: %1$s</string>
+    <string name="created_at_dots">Created At: %1$s</string>
+    <string name="updated_at_dots">Updated At: %1$s</string>
+    <string name="total_price_dots">Total Price: %1$s</string>
+    <string name="get_payment_details">Get Payment Details</string>
+    <string name="currency">Currency</string>
+    <string name="cancel_url">Cancel Url</string>
+    <string name="return_url">Return Url</string>
+    <string name="merchant_op_id_12_digits_max">Merchant Op Id (12 digits max)</string>
+    <string name="description_optional">Description (Optional)</string>
+    <string name="invoice_number_optional">Invoice Number (Optional)</string>
+    <string name="discount_optional">Discount (Optional)</string>
+    <string name="tip_optional">Tip (Optional)</string>
+    <string name="shipping_optional">Shipping (Optional)</string>
+    <string name="buyer_identity_code_optional">Buyer Identity Code (Optional)</string>
+    <string name="terminal_id_optional">Terminal Id (Optional)</string>
+    <string name="tax_dots">Tax: %1$s</string>
 </resources>

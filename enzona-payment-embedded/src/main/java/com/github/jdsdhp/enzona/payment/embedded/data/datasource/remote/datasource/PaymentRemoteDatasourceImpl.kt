@@ -6,12 +6,14 @@ import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.datasour
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.request.AmountDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.request.DetailsDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.request.create.CreatePaymentDto
+import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.cancel.CancelResponseDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.create.PaymentResponseDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.mapper.asData
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.mapper.asDomain
 import com.github.jdsdhp.enzona.payment.embedded.di.IoDispatcher
 import com.github.jdsdhp.enzona.payment.embedded.domain.datasource.PaymentRemoteDatasource
 import com.github.jdsdhp.enzona.payment.embedded.domain.datasource.RemoteDatasource
+import com.github.jdsdhp.enzona.payment.embedded.domain.model.CancelStatus
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Payment
 import com.github.jdsdhp.enzona.payment.embedded.util.ResultValue
@@ -100,5 +102,19 @@ internal class PaymentRemoteDatasourceImpl @Inject constructor(
         }
     }
 
-}
+    override suspend fun cancelPayment(
+        token: String,
+        transactionUuid: String,
+    ): ResultValue<CancelStatus> = withContext(dispatcher) {
+        remoteDatasource.call {
+            val res = okHttpClient.post(
+                fullUrl = "${Enzona.ApiUrl.OFFICIAL.url}/${Enzona.ApiUrl.OFFICIAL_PAYMENT_ENDPOINT.url}/$transactionUuid/cancel",
+                mediaTypeContent = "application/json",
+                content = "",
+                headers = mapOf("Authorization" to "Bearer $token"),
+            )
+            gson.fromJson(res.body?.string(), CancelResponseDto::class.java).asDomain()
+        }
+    }
 
+}

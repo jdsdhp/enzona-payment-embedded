@@ -1,5 +1,6 @@
 package com.github.jdsdhp.enzona.payment.embedded.domain.datasource
 
+import com.github.jdsdhp.enzona.payment.embedded.domain.model.CancelStatus
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Payment
 import com.github.jdsdhp.enzona.payment.embedded.util.ResultValue
@@ -51,5 +52,13 @@ internal interface PaymentRemoteDatasource {
      * @return ResultValue containing the payment details.
      */
     suspend fun getPaymentDetails(token: String, transactionUuid: String): ResultValue<Payment>
+
+    /**
+     * Suspend function to cancel a payment remotely.
+     * @param token The authentication token.
+     * @param transactionUuid The UUID of the transaction to be canceled.
+     * @return ResultValue containing the cancellation status.
+     */
+    suspend fun cancelPayment(token: String, transactionUuid: String): ResultValue<CancelStatus>
 
 }
