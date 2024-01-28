@@ -44,4 +44,12 @@ internal interface PaymentRemoteDatasource {
         items: List<Item>,
     ): ResultValue<Payment>
 
+    /**
+     * Suspend function to get payment details remotely.
+     * @param token The authentication token.
+     * @param transactionUuid The UUID of the transaction.
+     * @return ResultValue containing the payment details.
+     */
+    suspend fun getPaymentDetails(token: String, transactionUuid: String): ResultValue<Payment>
+
 }

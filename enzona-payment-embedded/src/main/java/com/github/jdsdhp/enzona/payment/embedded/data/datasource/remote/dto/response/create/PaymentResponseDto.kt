@@ -7,7 +7,7 @@ import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.resp
 import com.google.gson.annotations.SerializedName
 
 @Keep
-internal data class CreatePaymentResponseDto(
+internal data class PaymentResponseDto(
     @SerializedName("amount") val amount: AmountResponseDto,
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("currency") val currency: String,

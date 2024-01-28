@@ -70,4 +70,11 @@ interface Enzona {
         items: List<Item>,
     ): ResultValue<Payment>
 
+    /**
+     * Suspend function to get payment details using transaction UUID.
+     * @param transactionUuid The UUID of the transaction.
+     * @return ResultValue containing the payment information.
+     */
+    suspend fun getPaymentDetails(transactionUuid: String): ResultValue<Payment>
+
 }

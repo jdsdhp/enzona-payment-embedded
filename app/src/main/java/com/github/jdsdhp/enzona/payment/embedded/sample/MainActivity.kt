@@ -69,6 +69,45 @@ internal fun MainScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
+            text = "Payment Details",
+            style = MaterialTheme.typography.titleLarge,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Card(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.padding(8.dp)) {
+                uiState.payment?.let { payment ->
+                    Text(text = "Transaction UUID: ${payment.transactionUuid}")
+                    Text(text = "Status Code: ${payment.statusCode}")
+                    Text(text = "Status Name: ${payment.statusName}")
+                    Text(text = "Description: ${payment.description}")
+                    Text(text = "Currency: ${payment.currency}")
+                    Text(text = "Created At: ${payment.createdAt}")
+                    Text(text = "Updated At: ${payment.updatedAt}")
+                    Text(text = "Total Price: ${payment.totalPrice}")
+                    payment.links.forEach {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(text = "${it.rel} - ${it.method} - ${it.href}")
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = { viewModel.onGePaymentDetailClick() }) {
+            Text(text = "Get Payment Details")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        HorizontalDivider()
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
             text = stringResource(id = R.string.authenticate),
             style = MaterialTheme.typography.titleLarge,
         )

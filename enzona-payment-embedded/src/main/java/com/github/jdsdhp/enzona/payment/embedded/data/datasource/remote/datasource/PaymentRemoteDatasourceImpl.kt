@@ -1,11 +1,12 @@
 package com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.datasource
 
 import com.github.jdsdhp.enzona.payment.embedded.Enzona
+import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.datasource.util.get
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.datasource.util.post
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.request.AmountDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.request.DetailsDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.request.create.CreatePaymentDto
-import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.create.CreatePaymentResponseDto
+import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.create.PaymentResponseDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.mapper.asData
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.mapper.asDomain
 import com.github.jdsdhp.enzona.payment.embedded.di.IoDispatcher
@@ -82,7 +83,20 @@ internal class PaymentRemoteDatasourceImpl @Inject constructor(
                 headers = mapOf("Authorization" to "Bearer $token"),
             )
 
-            gson.fromJson(res.body?.string(), CreatePaymentResponseDto::class.java).asDomain()
+            gson.fromJson(res.body?.string(), PaymentResponseDto::class.java).asDomain()
+        }
+    }
+
+    override suspend fun getPaymentDetails(
+        token: String,
+        transactionUuid: String,
+    ): ResultValue<Payment> = withContext(dispatcher) {
+        remoteDatasource.call {
+            val res = okHttpClient.get(
+                fullUrl = "${Enzona.ApiUrl.OFFICIAL.url}/${Enzona.ApiUrl.OFFICIAL_PAYMENT_ENDPOINT.url}/$transactionUuid",
+                headers = mapOf("Authorization" to "Bearer $token"),
+            )
+            gson.fromJson(res.body?.string(), PaymentResponseDto::class.java).asDomain()
         }
     }
 

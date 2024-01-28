@@ -74,4 +74,10 @@ internal class EnzonaImpl @Inject constructor(
         terminalId = terminalId,
     )
 
+    override suspend fun getPaymentDetails(transactionUuid: String): ResultValue<Payment> =
+        paymentRemoteDatasource.getPaymentDetails(
+            token = token?.accessToken ?: "",
+            transactionUuid = transactionUuid,
+        )
+
 }

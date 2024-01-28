@@ -5,7 +5,7 @@ import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.requ
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.request.ItemDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.ItemResponseDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.LinkResponseDto
-import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.create.CreatePaymentResponseDto
+import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.create.PaymentResponseDto
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Amount
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Details
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
@@ -64,7 +64,7 @@ internal fun ItemResponseDto.asDomain(): Item =
 internal fun LinkResponseDto.asDomain(): Link =
     Link(rel = rel, method = method, href = href)
 
-internal fun CreatePaymentResponseDto.asDomain() = Payment(
+internal fun PaymentResponseDto.asDomain() = Payment(
     transactionUuid,
     createdAt,
     updateAt,
