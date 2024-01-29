@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2024 jesusd0897.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.jdsdhp.enzona.payment.embedded
 
+import com.github.jdsdhp.enzona.payment.embedded.di.DatasourceModule
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.CancelStatus
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Payment
@@ -10,6 +27,20 @@ import com.github.jdsdhp.enzona.payment.embedded.util.ResultValue
  * Interface representing the Enzona SDK.
  */
 interface Enzona {
+
+    companion object {
+
+        @Volatile
+        private var instance: Enzona? = null // Volatile modifier is necessary
+
+        fun getInstance() =
+            instance ?: synchronized(this) { // synchronized to avoid concurrency problem
+                instance ?: EnzonaImpl(
+                    authRemoteDatasource = DatasourceModule.authRemoteDatasource,
+                    paymentRemoteDatasource = DatasourceModule.paymentRemoteDatasource,
+                ).also { instance = it }
+            }
+    }
 
     /**
      * Enumeration representing different API URLs.
