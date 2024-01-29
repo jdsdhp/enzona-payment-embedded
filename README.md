@@ -1,14 +1,15 @@
-<div style="display: flex; align-items: center;">
-  <img src="arts/ic_enzona.svg" alt="Enzona Logo" style="margin-right: 20px; height: 50px;">
-  <h2 style="margin: 0;">Enzona Payment Embedded</h2>
+<div align="center">
+  <img src="arts/ic_enzona.svg" alt="Enzona Logo" width="50" height="50">
+  <h1>Enzona Payment Embedded</h1>
 </div>
+<p align="center">
+ <a href="https://jitpack.io/#jdsdhp/enzona-payment-embedded"><img alt="JitPack" src="https://jitpack.io/v/jdsdhp/enzona-payment-embedded.svg"/></a>
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
+  <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
+  <a href=https://twitter.com/jdsdhp"><img alt="X" src="https://img.shields.io/badge/Twitter-@jdsdhp-9C27B0.svg"/></a>
 
-[![](https://jitpack.io/v/jdsdhp/enzona-payment-embedded.svg)](https://jitpack.io/#jdsdhp/enzona-payment-embedded)
-[![API](https://img.shields.io/badge/API-17%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=21)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Twitter](https://img.shields.io/badge/Twitter-@jdsdhp-9C27B0.svg)](https://twitter.com/jdsdhp)
-
-The Enzona Payment Embedded is a lightweight Kotlin library designed to simplify integration with
+<p align="center">  
+💸️ The Enzona Payment Embedded is a lightweight Kotlin library designed to simplify integration with
 the Enzona payment system in Android applications. This library is built on top of several
 foundational libraries, including:
 
@@ -16,6 +17,8 @@ foundational libraries, including:
 - [OkHttp](https://github.com/square/okhttp): An HTTP client for making network requests.
 - [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines): A library for asynchronous
   programming in Kotlin using coroutines.
+
+</p>
 
 ## Documentation
 
@@ -29,12 +32,12 @@ which provides comprehensive information about the Enzona Payment API.
 
 ```gradle
 dependencyResolutionManagement {
-		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-		repositories {
-			mavenCentral()
-			maven { url 'https://jitpack.io' }
-		}
+	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+	repositories {
+		mavenCentral()
+		maven { url 'https://jitpack.io' }
 	}
+}
 
 dependencies {
     implementation 'com.github.jdsdhp:enzona-payment-embedded:v0.1.0'
@@ -97,15 +100,15 @@ val paymentResult: ResultValue<Payment> = Enzona.getInstance().getPaymentDetails
 
 ### 5.Cancelling a Payment
 
-Cancel a payment using the `cancelPayment` method with the`transaction_uuid`.
+Cancel a payment using the `cancelPayment` method with the `transaction_uuid`.
 
 ```kotlin
-val paymentResult: ResultValue<Payment> = Enzona.getInstance().getPaymentDetails("transaction_uuid")
+val paymentResult: ResultValue<Payment> = Enzona.getInstance().cancelPayment("transaction_uuid")
 ```
 
 ### 5.Completing a Payment
 
-Complete a payment using the `completePayment` method with the`transaction_uuid`.
+Complete a payment using the `completePayment` method with the `transaction_uuid`.
 
 ```kotlin
 val completeResult: ResultValue<Payment> = Enzona.getInstance().completePayment("transaction_uuid")
@@ -123,7 +126,7 @@ are already implemented in the examples.
 View the sample app's source
 code [here](https://github.com/jdsdhp/enzona-payment-embedded/tree/master/app)
 
-![](arts/art-01.png)
+ <img src="arts/art-01.png" alt="Enzona Logo" height="1080">
 
 ## Upcoming Features
 
