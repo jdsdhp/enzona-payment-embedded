@@ -8,19 +8,18 @@ import com.github.jdsdhp.enzona.payment.embedded.Enzona
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Payment
 import com.github.jdsdhp.enzona.payment.embedded.util.ResultValue
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
-import javax.inject.Inject
 
 private const val TAG = "dev/tag"
 
-@HiltViewModel
-class MainViewModel @Inject constructor(private val enzona: Enzona) : ViewModel() {
+internal class MainViewModel : ViewModel() {
+
+    private val enzona = Enzona.getInstance()
 
     data class UiState(
         val isLoading: Boolean = false,

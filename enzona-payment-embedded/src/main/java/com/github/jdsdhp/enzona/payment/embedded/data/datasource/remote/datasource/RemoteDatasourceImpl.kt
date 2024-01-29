@@ -2,12 +2,11 @@ package com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.datasou
 
 import com.github.jdsdhp.enzona.payment.embedded.domain.datasource.RemoteDatasource
 import com.github.jdsdhp.enzona.payment.embedded.util.ResultValue
-import javax.inject.Inject
 
 /**
  * Internal class representing a remote data source abstraction.
  */
-internal class RemoteDatasourceImpl @Inject constructor() : RemoteDatasource {
+internal class RemoteDatasourceImpl : RemoteDatasource {
 
     override suspend fun <T> call(request: suspend () -> T): ResultValue<T> =
         safeApiCall(request = request)

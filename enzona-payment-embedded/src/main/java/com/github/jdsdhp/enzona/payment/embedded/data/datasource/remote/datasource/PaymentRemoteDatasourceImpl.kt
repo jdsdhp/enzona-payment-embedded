@@ -10,7 +10,6 @@ import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.resp
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.dto.response.cancel.CancelResponseDto
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.mapper.asData
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.mapper.asDomain
-import com.github.jdsdhp.enzona.payment.embedded.di.IoDispatcher
 import com.github.jdsdhp.enzona.payment.embedded.domain.datasource.PaymentRemoteDatasource
 import com.github.jdsdhp.enzona.payment.embedded.domain.datasource.RemoteDatasource
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.CancelStatus
@@ -21,11 +20,10 @@ import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
-import javax.inject.Inject
 
-internal class PaymentRemoteDatasourceImpl @Inject constructor(
+internal class PaymentRemoteDatasourceImpl(
     private val okHttpClient: OkHttpClient,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher,
+    private val dispatcher: CoroutineDispatcher,
     private val remoteDatasource: RemoteDatasource,
 ) : PaymentRemoteDatasource {
 

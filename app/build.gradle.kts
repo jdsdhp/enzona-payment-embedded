@@ -2,8 +2,6 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -54,10 +52,6 @@ android {
 
 dependencies {
     implementation(project(":enzona-payment-embedded"))
-
-    // Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
 
     implementation(libs.core.ktx)
     implementation(platform(libs.compose.bom))

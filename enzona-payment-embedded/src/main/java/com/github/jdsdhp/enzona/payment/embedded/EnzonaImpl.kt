@@ -7,9 +7,8 @@ import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Payment
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Token
 import com.github.jdsdhp.enzona.payment.embedded.util.ResultValue
-import javax.inject.Inject
 
-internal class EnzonaImpl @Inject constructor(
+internal class EnzonaImpl(
     private val authRemoteDatasource: AuthRemoteDatasource,
     private val paymentRemoteDatasource: PaymentRemoteDatasource,
 ) : Enzona {

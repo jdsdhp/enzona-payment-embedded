@@ -2,7 +2,6 @@ package com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.datasou
 
 import com.github.jdsdhp.enzona.payment.embedded.Enzona
 import com.github.jdsdhp.enzona.payment.embedded.data.datasource.remote.datasource.util.post
-import com.github.jdsdhp.enzona.payment.embedded.di.IoDispatcher
 import com.github.jdsdhp.enzona.payment.embedded.domain.datasource.AuthRemoteDatasource
 import com.github.jdsdhp.enzona.payment.embedded.domain.datasource.RemoteDatasource
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Scope
@@ -13,13 +12,12 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import org.json.JSONException
 import org.json.JSONObject
-import javax.inject.Inject
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
-internal class AuthRemoteDatasourceImpl @Inject constructor(
+internal class AuthRemoteDatasourceImpl(
     private val okHttpClient: OkHttpClient,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher,
+    private val dispatcher: CoroutineDispatcher,
     private val remoteDatasource: RemoteDatasource,
 ) : AuthRemoteDatasource {
 

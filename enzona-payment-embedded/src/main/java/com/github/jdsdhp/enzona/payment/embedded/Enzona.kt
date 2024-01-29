@@ -1,5 +1,6 @@
 package com.github.jdsdhp.enzona.payment.embedded
 
+import com.github.jdsdhp.enzona.payment.embedded.di.DatasourceModule
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.CancelStatus
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Item
 import com.github.jdsdhp.enzona.payment.embedded.domain.model.Payment
@@ -10,6 +11,20 @@ import com.github.jdsdhp.enzona.payment.embedded.util.ResultValue
  * Interface representing the Enzona SDK.
  */
 interface Enzona {
+
+    companion object {
+
+        @Volatile
+        private var instance: Enzona? = null // Volatile modifier is necessary
+
+        fun getInstance() =
+            instance ?: synchronized(this) { // synchronized to avoid concurrency problem
+                instance ?: EnzonaImpl(
+                    authRemoteDatasource = DatasourceModule.authRemoteDatasource,
+                    paymentRemoteDatasource = DatasourceModule.paymentRemoteDatasource,
+                ).also { instance = it }
+            }
+    }
 
     /**
      * Enumeration representing different API URLs.
