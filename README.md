@@ -40,7 +40,8 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation 'com.github.jdsdhp:enzona-payment-embedded:v0.1.0'
+    // Replace 'TAG' with the current version of the library.
+    implementation 'com.github.jdsdhp:enzona-payment-embedded:TAG'
 }
 ```
 
